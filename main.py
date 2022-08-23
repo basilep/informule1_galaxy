@@ -5,12 +5,6 @@ Config.set('graphics', 'height', '400')
 from kivy.core.window import Window 
 
 from kivy.app import App
-from kivy.metrics import dp
-from kivy.uix.widget import Widget
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.anchorlayout import AnchorLayout
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.graphics.vertex_instructions import Line, Quad, Triangle
 from kivy.graphics.context_instructions import Color
@@ -46,7 +40,7 @@ class MainWidget(RelativeLayout):
     SPEED = 12
 
     current_offset_x = 0
-    SPEED_x = 20
+    SPEED_x = 25
     current_speed_x = 0
 
     NB_TILES=16
@@ -59,7 +53,7 @@ class MainWidget(RelativeLayout):
     SHIP_HEIGHT = 0.1
     SHIP_BASE_Y = 0.04
     ship = None
-    kart = Image(source="images\kart.png")
+    kart = Image(source="images\kart2.png")
     ship_coordinates = [(),(),(),()]
 
     state_gameover = False
@@ -94,7 +88,7 @@ class MainWidget(RelativeLayout):
         self.sound_galaxy = SoundLoader.load("audio/galaxy.wav")
         self.sound_gameover_impact = SoundLoader.load("audio/gameover_impact.wav")
         self.sound_gameover_voice = SoundLoader.load("audio/gameover_voice.wav")
-        self.sound_music_1 = SoundLoader.load("audio/music1.wav")
+        self.sound_music_1 = SoundLoader.load("audio/canada.mp3")
         self.sound_restart = SoundLoader.load("audio/restart.wav")
 
         self.sound_music_1.volume = 1
@@ -110,7 +104,7 @@ class MainWidget(RelativeLayout):
         self.current_offset_y = 0
         self.current_offset_x = 0
         self.current_speed_x = 0
-        
+        self.SPEED = 12
         self.tiles_coordinates = []
         self.pre_fill_tiles_coordinates()
         self.generate_tiles_coordinates()
@@ -192,19 +186,19 @@ class MainWidget(RelativeLayout):
 
     def init_vertical_lines(self):
         with self.canvas:
-            Color(1, 1, 1)
+            Color(168/255, 186/255, 255/255)
             for i in range(0, self.V_NB_LINES):
                 self.vertical_lines.append(Line())
     
     def init_horizontal_lines(self):
         with self.canvas:
-            Color(1, 1, 1)
+            Color(168/255, 186/255, 255/255)
             for i in range(0, self.H_NB_LINES):
                 self.horizontal_lines.append(Line())
 
     def init_tiles(self):
         with self.canvas:
-            Color(1, 1, 1)
+            Color(62/255, 121/255, 189/255)
             for i in range (0, self.NB_TILES):
                 self.tiles.append(Quad())
 
@@ -298,6 +292,10 @@ class MainWidget(RelativeLayout):
             while self.current_offset_y >= spacing_y:
                 self.current_offset_y -= spacing_y
                 self.current_y_loop +=1
+                if self.SPEED<50:
+                    self.SPEED+=0.05
+                elif self.SPEED<100:
+                    self.SPEED+=0.02
                 self.score_txt = "Score : "+str(self.current_y_loop)
                 self.generate_tiles_coordinates()
 
